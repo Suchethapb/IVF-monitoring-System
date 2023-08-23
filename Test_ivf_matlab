@@ -1,0 +1,47 @@
+%imds = imageDatastore('PRO', ...
+  %  'IncludeSubfolders',true, ...
+ %   'LabelSource','foldernames');
+%labelCount = countEachLabel(imds);
+load net;
+d="C:\Users\SUCHETHA\OneDrive\Desktop\dataset\PRO\8cell\"
+d1=d +"kelas1 (112).png"
+img=imread(d1);
+
+%imshow img
+layers = net.Layers
+val= predict(net,img)
+imshow(img)
+title(val)
+disp(val)
+%title(val)
+%net.Labels(labelIdx)
+%x=net.classify(val)
+%imshow(img)
+%title('yes')
+%title(join([string(val),'']))
+%validateattributes(img,{'ivf'},size,1)
+%validateattributes(img,{'dataset of 2'},size,2)
+%validateattributes(img,{'blsato'},size,3)
+%validateattributes(img,{'8cell'},size,4)
+ % disp("ok")
+%ok")
+%elseif(val==3)
+ %       disp("kk")
+%end
+%numPlots = 1;
+%idx = randperm(size(img,4),numPlots);
+
+%sz = size(img,1);
+%offset = sz/2;
+
+%figure
+%tiledlayout("flow")
+
+%for i = 1:numPlots
+ %   nexttile
+  %  imshow(img(:,:,:,idx(i)))
+  %  title("Observation " + idx(i))
+
+   % hold on
+    %plot(offset*[1-tand(YTest(idx(i))) 1+tand(YTest(idx(i)))],[sz 0],"r--")
+    %hold off
