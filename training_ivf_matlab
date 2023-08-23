@@ -1,0 +1,47 @@
+imds = imageDatastore('PRO', ...
+    'IncludeSubfolders',true, ...
+    'LabelSource','foldernames');
+labelCount = countEachLabel(imds)
+img = readimage(imds,1);
+size(img)
+[imdsTrain,imdsValidation] = splitEachLabel(imds,0.93,'randomized');
+layers = [
+    imageInputLayer([128 128 3])
+    
+    convolution2dLayer(3,10,'Padding','same')
+    batchNormalizationLayer
+    reluLayer
+    
+    maxPooling2dLayer(4,'Stride',4)
+    
+    convolution2dLayer(3,15,'Padding','same')
+    batchNormalizationLayer
+    reluLayer
+    
+    maxPooling2dLayer(4,'Stride',4)
+    
+    convolution2dLayer(3,20,'Padding','same')
+    batchNormalizationLayer
+    reluLayer
+     
+     %convolution2dLayer(2,128,'Padding','same')
+    %batchNormalizationLayer
+    %reluLayer
+
+    fullyConnectedLayer(4)
+    softmaxLayer
+    classificationLayer];
+options = trainingOptions('sgdm', ...
+    'InitialLearnRate',0.001, ...
+    'MaxEpochs',5, ...
+    'Shuffle','every-epoch', ...
+    'ValidationData',imdsValidation, ...
+    'ValidationFrequency',20, ...
+    'Verbose',false, ...
+    'Plots','training-progress');
+net = trainNetwork(imdsTrain,layers,options);
+save net;
+YPred = classify(net,imdsValidation);
+YValidation = imdsValidation.Labels;
+ConfusionTest = confusionchart(Ystats(testIdx),labelTest);
+accuracy = sum(YPred == YValidation)/numel(YValidation)
